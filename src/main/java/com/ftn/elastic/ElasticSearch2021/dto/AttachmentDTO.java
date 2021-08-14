@@ -1,5 +1,6 @@
 package com.ftn.elastic.ElasticSearch2021.dto;
 
+import com.ftn.elastic.ElasticSearch2021.model.Attachment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,17 +14,18 @@ public class AttachmentDTO {
 
     private Integer id;
 
-    private String firstName;
+    private String path;
 
-    private String lastName;
+    private String mimeType;
 
-    private String displayName;
+    private String name;
 
-    private String email;
+    private String base64;
 
-    private String note;
-
-    private UserDTO user;
+    private MessageDTO message;
 
 
+    public AttachmentDTO(Attachment a){
+        this(a.getId(), a.getPath(), a.getMimeType(), a.getName(), a.getBase64(), new MessageDTO(a.getMessage()));
+    }
 }
