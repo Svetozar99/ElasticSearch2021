@@ -2,6 +2,7 @@ package com.ftn.elastic.ElasticSearch2021.dto;
 
 import com.ftn.elastic.ElasticSearch2021.model.ECondition;
 import com.ftn.elastic.ElasticSearch2021.model.EOperation;
+import com.ftn.elastic.ElasticSearch2021.model.Rule;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,8 @@ public class RuleDTO {
     private String value;
 
     private FolderDTO folder;
+
+    public  RuleDTO(Rule r){
+        this(r.getId(), r.getCondition(), r.getOperation(), r.getValue(), new FolderDTO(r.getFolder()));
+    }
 }

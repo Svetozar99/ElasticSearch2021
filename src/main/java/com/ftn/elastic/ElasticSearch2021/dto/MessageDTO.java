@@ -1,5 +1,6 @@
 package com.ftn.elastic.ElasticSearch2021.dto;
 
+import com.ftn.elastic.ElasticSearch2021.model.Message;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +36,9 @@ public class MessageDTO {
 
     private AccountDTO account;
 
+    public MessageDTO(Message m){
+        this(m.getId(), m.getFrom(), m.getTo(), m.getCc(), m.getBcc(),
+                m.getSubject(), m.getDateTime(), m.getContent(), m.getUnread(),
+                new FolderDTO(m.getFolder()), new AccountDTO(m.getAccount()));
+    }
 }

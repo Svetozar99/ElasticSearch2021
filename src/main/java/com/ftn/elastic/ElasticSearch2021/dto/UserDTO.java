@@ -1,5 +1,6 @@
 package com.ftn.elastic.ElasticSearch2021.dto;
 
+import com.ftn.elastic.ElasticSearch2021.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,8 @@ public class UserDTO {
     private String firstName;
 
     private String lastName;
+
+    public UserDTO(User u){
+        this(u.getId(), u.getUsername(), u.getPassword(), u.getFirstName(), u.getLastName());
+    }
 }

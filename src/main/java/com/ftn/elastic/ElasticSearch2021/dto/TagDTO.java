@@ -1,5 +1,6 @@
 package com.ftn.elastic.ElasticSearch2021.dto;
 
+import com.ftn.elastic.ElasticSearch2021.model.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,8 @@ public class TagDTO {
     private String name;
 
     private UserDTO user;
+
+    public TagDTO(Tag tag){
+        this(tag.getId(), tag.getName(), new UserDTO(tag.getUser()));
+    }
 }

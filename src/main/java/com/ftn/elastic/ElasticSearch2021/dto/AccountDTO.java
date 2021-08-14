@@ -1,10 +1,13 @@
 package com.ftn.elastic.ElasticSearch2021.dto;
 
+import com.ftn.elastic.ElasticSearch2021.model.Account;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class AccountDTO {
@@ -28,4 +31,10 @@ public class AccountDTO {
     private String displayName;
 
     private UserDTO user;
+
+    public AccountDTO(Account a){
+        this(a.getId(), a.getSmtpAddress(), a.getSmtpPort(), a.getInServerType(),
+                a.getInServerAddress(), a.getInServerPort(), a.getUsername(),
+                a.getPassword(), a.getDisplayName(), new UserDTO(a.getUser()));
+    }
 }
