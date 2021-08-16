@@ -16,4 +16,8 @@ public interface AccountServiceInterface {
     public AccountDTO update(Integer id, AccountDTO accountDTO);
 
     public void delete(Integer id);
+
+    public AccountDTO getByUsername(String username);
+
+    public List<AccountDTO> getByUser(Integer id);
 }

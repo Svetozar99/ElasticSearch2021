@@ -5,6 +5,7 @@ import com.ftn.elastic.ElasticSearch2021.serviceInterface.AccountServiceInterfac
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -43,5 +44,15 @@ public class AccountController {
     public ResponseEntity<Void> deleteAccount(@PathVariable("id") Integer id){
         accountServiceInterface.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/user/{id}")
+    public ResponseEntity<List<AccountDTO>> getAccountsBy(@PathVariable("id") Integer id){
+        return ResponseEntity.ok().body(accountServiceInterface.getByUser(id));
+    }
+
+    @GetMapping(value = "/by-username/{username}/get")
+    public ResponseEntity<AccountDTO> getAccountByUsername(@PathVariable("username") String username){
+        return ResponseEntity.ok().body(accountServiceInterface.getByUsername(username));
     }
 }

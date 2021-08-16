@@ -9,8 +9,10 @@ import com.ftn.elastic.ElasticSearch2021.serviceInterface.AccountServiceInterfac
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService implements AccountServiceInterface {
@@ -83,5 +85,26 @@ public class AccountService implements AccountServiceInterface {
     @Override
     public void delete(Integer id) {
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    public AccountDTO getByUsername(String username) {
+        Account account = accountRepository.findByUsername(username);
+        if(account != null)
+            return new AccountDTO(account);
+        else throw new EntityNotFoundException();
+    }
+
+    @Override
+    public List<AccountDTO> getByUser(Integer id) {
+        if(userRepository.findOneById(id) == null) throw new EntityNotFoundException();
+
+        List<Account> accounts = accountRepository.findAllByUser_id(id);
+
+        List<AccountDTO> dtos = new ArrayList<>();
+        for(Account a: accounts) {
+            dtos.add(new AccountDTO(a));
+        }
+        return dtos;
     }
 }
