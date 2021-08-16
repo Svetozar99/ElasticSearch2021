@@ -10,11 +10,13 @@ import com.ftn.elastic.ElasticSearch2021.repository.AccountRepository;
 import com.ftn.elastic.ElasticSearch2021.repository.FolderRepository;
 import com.ftn.elastic.ElasticSearch2021.repository.MessageRepository;
 import com.ftn.elastic.ElasticSearch2021.serviceInterface.MessageServiceInterface;
+import com.ftn.elastic.ElasticSearch2021.utility.MailUtil;
 import org.aspectj.bridge.MessageWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,9 @@ public class MessageService implements MessageServiceInterface {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    MailUtil mailUtil;
 
     @Override
     public List<MessageDTO> getAll() {
@@ -50,6 +55,7 @@ public class MessageService implements MessageServiceInterface {
 
     @Override
     public MessageDTO save(MessageDTO messageDTO) {
+
         Folder f = folderRepository.findOneById(messageDTO.getFolder().getId());
         Account a = accountRepository.findOneById(messageDTO.getAccount().getId());
         Message m = new Message();
@@ -64,7 +70,10 @@ public class MessageService implements MessageServiceInterface {
         m.setFolder(f);
         m.setAccount(a);
 
-        m = messageRepository.save(m);
+//        boolean sentSuccessful =
+        mailUtil.sendMessage(m);
+//        if(sentSuccessful)
+//            m = messageRepository.save(m);
 
         return new MessageDTO(m);
     }
@@ -110,7 +119,7 @@ public class MessageService implements MessageServiceInterface {
     }
 
     @Override
-    public List<MessageDTO> getByAccount(Integer id) {
+    public List<MessageDTO> getByAccountId(Integer id) {
         if(accountRepository.findOneById(id) == null)
             throw new EntityNotFoundException();
 
@@ -121,6 +130,11 @@ public class MessageService implements MessageServiceInterface {
             dtos.add(new MessageDTO(m));
         }
         return dtos;
+    }
+
+    @Override
+    public List<MessageDTO> getByAccount(Integer id) {
+        return null;
     }
 
     @Override

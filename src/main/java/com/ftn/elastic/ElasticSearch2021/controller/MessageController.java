@@ -52,7 +52,7 @@ public class MessageController {
 
     @GetMapping(value = "/{id}/by-account")
     public ResponseEntity<List<MessageDTO>> getMessagesByAccount(@PathVariable("id") Integer id){
-        return ResponseEntity.ok().body(messageServiceInterface.getByAccount(id));
+        return ResponseEntity.ok().body(messageServiceInterface.getByAccountId(id));
     }
 
     @GetMapping(value = "/by-folder/{folderId}/by-account/{accountId}")

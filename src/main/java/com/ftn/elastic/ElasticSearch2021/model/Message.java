@@ -1,5 +1,6 @@
 package com.ftn.elastic.ElasticSearch2021.model;
 
+import com.ftn.elastic.ElasticSearch2021.dto.MessageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -17,6 +17,8 @@ public interface MessageServiceInterface {
 
     public List<MessageDTO> getByFolder(Integer id);
 
+    public List<MessageDTO> getByAccountId(Integer id);
+
     public List<MessageDTO> getByAccount(Integer id);
 
     public List<MessageDTO> getByFolderAndAccount(Integer folderId, Integer accountId);
