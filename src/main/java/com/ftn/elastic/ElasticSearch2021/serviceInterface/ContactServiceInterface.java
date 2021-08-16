@@ -16,4 +16,8 @@ public interface ContactServiceInterface {
     public ContactDTO update(Integer id, ContactDTO contactDTO);
 
     public void delete(Integer id);
+
+    public List<ContactDTO> getAllByUser(Integer id);
+
+    public List<ContactDTO> filterContact(ContactDTO contactDTO);
 }

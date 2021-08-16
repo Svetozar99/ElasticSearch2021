@@ -1,6 +1,7 @@
 package com.ftn.elastic.ElasticSearch2021.controller;
 
 import com.ftn.elastic.ElasticSearch2021.dto.ContactDTO;
+import com.ftn.elastic.ElasticSearch2021.dto.UserDTO;
 import com.ftn.elastic.ElasticSearch2021.serviceInterface.ContactServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,15 @@ public class ContactController {
     public ResponseEntity<Void> deleteContact(@PathVariable("id") Integer id){
         contactServiceInterface.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/user/{id}")
+    public ResponseEntity<List<ContactDTO>> getContactsByUser(@PathVariable("id") Integer id){
+        return ResponseEntity.ok().body(contactServiceInterface.getAllByUser(id));
+    }
+
+    @PostMapping(value = "/filter")
+    public ResponseEntity<List<ContactDTO>> filterContacts(@RequestBody ContactDTO contactDTO){
+        return ResponseEntity.ok().body(contactServiceInterface.filterContact(contactDTO));
     }
 }

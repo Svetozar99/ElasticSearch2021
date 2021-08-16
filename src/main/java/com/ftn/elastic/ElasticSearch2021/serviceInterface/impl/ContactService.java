@@ -1,8 +1,7 @@
 package com.ftn.elastic.ElasticSearch2021.serviceInterface.impl;
 
-import com.ftn.elastic.ElasticSearch2021.dto.AttachmentDTO;
 import com.ftn.elastic.ElasticSearch2021.dto.ContactDTO;
-import com.ftn.elastic.ElasticSearch2021.model.Attachment;
+import com.ftn.elastic.ElasticSearch2021.dto.UserDTO;
 import com.ftn.elastic.ElasticSearch2021.model.Contact;
 import com.ftn.elastic.ElasticSearch2021.model.User;
 import com.ftn.elastic.ElasticSearch2021.repository.ContactRepository;
@@ -79,5 +78,27 @@ public class ContactService implements ContactServiceInterface {
     @Override
     public void delete(Integer id) {
         contactRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ContactDTO> getAllByUser(Integer id) {
+        List<Contact> contacts = contactRepository.findAllByUser_id(id);
+
+        List<ContactDTO> dtos = new ArrayList<>();
+        for(Contact c: contacts) {
+            dtos.add(new ContactDTO(c));
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<ContactDTO> filterContact(ContactDTO contactDTO) {
+        List<Contact> contacts = contactRepository.filterContacts(contactDTO.getFirstName(), contactDTO.getLastName(), contactDTO.getEmail(), contactDTO.getNote());
+
+        List<ContactDTO> dtos = new ArrayList<>();
+        for(Contact c: contacts) {
+            dtos.add(new ContactDTO(c));
+        }
+        return dtos;
     }
 }
