@@ -14,4 +14,11 @@ public interface MessageServiceInterface {
     public MessageDTO update(Integer id, MessageDTO messageDTO);
 
     public void delete(Integer id);
+
+    public List<MessageDTO> getByFolder(Integer id);
+
+    public List<MessageDTO> getByAccount(Integer id);
+
+    public List<MessageDTO> getByFolderAndAccount(Integer folderId, Integer accountId);
+
 }

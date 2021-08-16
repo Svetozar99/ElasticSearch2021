@@ -44,4 +44,19 @@ public class MessageController {
         messageServiceInterface.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value = "/by-folder/{id}")
+    public ResponseEntity<List<MessageDTO>> getMessagesByFolder(@PathVariable("id") Integer id){
+        return ResponseEntity.ok().body(messageServiceInterface.getByFolder(id));
+    }
+
+    @GetMapping(value = "/{id}/by-account")
+    public ResponseEntity<List<MessageDTO>> getMessagesByAccount(@PathVariable("id") Integer id){
+        return ResponseEntity.ok().body(messageServiceInterface.getByAccount(id));
+    }
+
+    @GetMapping(value = "/by-folder/{folderId}/by-account/{accountId}")
+    public ResponseEntity<List<MessageDTO>> getMessagesByFolderAndAccount(@PathVariable("folderId") Integer folderId, @PathVariable("accountId") Integer accountId){
+        return ResponseEntity.ok().body(messageServiceInterface.getByFolderAndAccount(folderId, accountId));
+    }
 }

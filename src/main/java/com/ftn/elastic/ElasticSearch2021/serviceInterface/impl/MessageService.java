@@ -14,6 +14,7 @@ import org.aspectj.bridge.MessageWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,5 +93,47 @@ public class MessageService implements MessageServiceInterface {
     @Override
     public void delete(Integer id) {
         messageRepository.deleteById(id);
+    }
+
+    @Override
+    public List<MessageDTO> getByFolder(Integer id) {
+        if(folderRepository.findOneById(id) == null)
+            throw new EntityNotFoundException();
+
+        List<Message> messages = messageRepository.findAllByFolder_id(id);
+
+        List<MessageDTO> dtos = new ArrayList<>();
+        for(Message m: messages) {
+            dtos.add(new MessageDTO(m));
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<MessageDTO> getByAccount(Integer id) {
+        if(accountRepository.findOneById(id) == null)
+            throw new EntityNotFoundException();
+
+        List<Message> messages = messageRepository.findAllByAccount_id(id);
+
+        List<MessageDTO> dtos = new ArrayList<>();
+        for(Message m: messages) {
+            dtos.add(new MessageDTO(m));
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<MessageDTO> getByFolderAndAccount(Integer folderId, Integer accountId) {
+        if(folderRepository.findOneById(folderId) == null || accountRepository.findOneById(accountId) == null)
+            throw new EntityNotFoundException();
+
+        List<Message> messages = messageRepository.findAllByFolder_idAndAccount_id(folderId, accountId);
+
+        List<MessageDTO> dtos = new ArrayList<>();
+        for(Message m: messages) {
+            dtos.add(new MessageDTO(m));
+        }
+        return dtos;
     }
 }
