@@ -9,6 +9,7 @@ import com.ftn.elastic.ElasticSearch2021.serviceInterface.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,4 +69,25 @@ public class UserService implements UserServiceInterface {
     public void delete(Integer id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public UserDTO getByUsername(String username) {
+        User user = userRepository.findOneByUsername(username);
+        if(user != null)
+            return new UserDTO(user);
+        else throw new EntityNotFoundException();
+    }
+
+    @Override
+    public List<UserDTO> filterUsers(UserDTO userDTO) {
+        List<User> users = userRepository.filterUsers(userDTO.getUsername(), userDTO.getFirstName(), userDTO.getLastName());
+
+        List<UserDTO> dtos = new ArrayList<>();
+        for(User u: users) {
+            dtos.add(new UserDTO(u));
+        }
+        return dtos;
+    }
+
+
 }

@@ -45,4 +45,14 @@ public class UserController {
         userServiceInterface.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value = "by-username/{username}")
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable("username") String username){
+        return ResponseEntity.ok().body(userServiceInterface.getByUsername(username));
+    }
+
+    @PostMapping(value = "/filter")
+    public ResponseEntity<List<UserDTO>> filterUser(@RequestBody UserDTO userDTO){
+        return ResponseEntity.ok().body(userServiceInterface.filterUsers(userDTO));
+    }
 }

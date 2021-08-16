@@ -14,4 +14,8 @@ public interface UserServiceInterface {
     public UserDTO update(Integer id, UserDTO userDTO);
 
     public void delete(Integer id);
+
+    public UserDTO getByUsername(String username);
+
+    List<UserDTO> filterUsers(UserDTO userDTO);
 }
