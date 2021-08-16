@@ -59,4 +59,9 @@ public class MessageController {
     public ResponseEntity<List<MessageDTO>> getMessagesByFolderAndAccount(@PathVariable("folderId") Integer folderId, @PathVariable("accountId") Integer accountId){
         return ResponseEntity.ok().body(messageServiceInterface.getByFolderAndAccount(folderId, accountId));
     }
+
+    @GetMapping(value = "all-messages/by-account/{id}")
+    public ResponseEntity<List<MessageDTO>> getMessagesByOneAccount(@PathVariable("id") Integer id){
+        return ResponseEntity.ok().body(messageServiceInterface.getByAccount(id));
+    }
 }

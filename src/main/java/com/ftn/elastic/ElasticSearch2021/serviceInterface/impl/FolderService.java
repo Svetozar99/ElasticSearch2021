@@ -71,4 +71,11 @@ public class FolderService implements FolderServiceInterface {
     public void delete(Integer id) {
         folderRepository.deleteById(id);
     }
+
+    @Override
+    public Folder getByAccountId(Integer id, String name) {
+        Folder f = folderRepository.findOneByAccount_idAndName(id, name);
+
+        return f;
+    }
 }

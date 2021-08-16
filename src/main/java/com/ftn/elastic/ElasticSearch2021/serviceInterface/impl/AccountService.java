@@ -55,6 +55,7 @@ public class AccountService implements AccountServiceInterface {
         a.setUsername(accountDTO.getUsername());
         a.setPassword(accountDTO.getPassword());
         a.setDisplayName(accountDTO.getDisplayName());
+        a.setSyncTime(accountDTO.getSyncTime());
         a.setUser(u);
 
         a = accountRepository.save(a);
@@ -75,6 +76,7 @@ public class AccountService implements AccountServiceInterface {
         a.setUsername(accountDTO.getUsername());
         a.setPassword(accountDTO.getPassword());
         a.setDisplayName(accountDTO.getDisplayName());
+        a.setSyncTime(accountDTO.getSyncTime());
         a.setUser(u);
 
         a = accountRepository.save(a);

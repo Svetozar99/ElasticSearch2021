@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FolderRepository extends JpaRepository<Folder, Integer> {
 
+    Folder findOneByAccount_idAndName(Integer id, String name);
+
     Folder findOneById(Integer id);
 }

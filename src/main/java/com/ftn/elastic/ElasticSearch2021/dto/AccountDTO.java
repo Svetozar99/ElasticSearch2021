@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -30,11 +32,13 @@ public class AccountDTO {
 
     private String displayName;
 
+    private LocalDateTime syncTime;
+
     private UserDTO user;
 
     public AccountDTO(Account a){
         this(a.getId(), a.getSmtpAddress(), a.getSmtpPort(), a.getInServerType(),
                 a.getInServerAddress(), a.getInServerPort(), a.getUsername(),
-                a.getPassword(), a.getDisplayName(), new UserDTO(a.getUser()));
+                a.getPassword(), a.getDisplayName(), a.getSyncTime(), new UserDTO(a.getUser()));
     }
 }

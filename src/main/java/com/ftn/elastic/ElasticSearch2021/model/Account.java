@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -43,6 +44,9 @@ public class Account {
 
     @Column(name = "display_name", nullable = false)
     private String displayName;
+
+    @Column(name = "sync_time")
+    private LocalDateTime syncTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)

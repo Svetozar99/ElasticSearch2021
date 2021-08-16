@@ -1,22 +1,19 @@
 package com.ftn.elastic.ElasticSearch2021.serviceInterface.impl;
 
 import com.ftn.elastic.ElasticSearch2021.dto.MessageDTO;
-import com.ftn.elastic.ElasticSearch2021.dto.RuleDTO;
 import com.ftn.elastic.ElasticSearch2021.model.Account;
 import com.ftn.elastic.ElasticSearch2021.model.Folder;
 import com.ftn.elastic.ElasticSearch2021.model.Message;
-import com.ftn.elastic.ElasticSearch2021.model.Rule;
 import com.ftn.elastic.ElasticSearch2021.repository.AccountRepository;
 import com.ftn.elastic.ElasticSearch2021.repository.FolderRepository;
 import com.ftn.elastic.ElasticSearch2021.repository.MessageRepository;
+import com.ftn.elastic.ElasticSearch2021.serviceInterface.AccountServiceInterface;
 import com.ftn.elastic.ElasticSearch2021.serviceInterface.MessageServiceInterface;
 import com.ftn.elastic.ElasticSearch2021.utility.MailUtil;
-import org.aspectj.bridge.MessageWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +28,9 @@ public class MessageService implements MessageServiceInterface {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    AccountServiceInterface accountServiceInterface;
 
     @Autowired
     MailUtil mailUtil;
@@ -134,7 +134,30 @@ public class MessageService implements MessageServiceInterface {
 
     @Override
     public List<MessageDTO> getByAccount(Integer id) {
-        return null;
+        Account account = accountRepository.getById(id);
+        System.out.println(account.getId() + "account");
+        if(account == null) throw new EntityNotFoundException();
+//        Account account = accountConverter.convertToJPA(accountDTO);
+        List<MessageDTO> allMessages = new ArrayList<>();
+
+        List<Message> loadMessages = mailUtil.pullMessages(account);
+        loadMessages = messageRepository.saveAll(loadMessages);
+        if(loadMessages.isEmpty()){
+            //return this.getByAccountId(accountId);
+            allMessages.addAll(this.getByAccountId(id)); }
+        else {
+            List<MessageDTO> savedMessages = this.getByAccountId(id);
+
+            List<MessageDTO> pulledMessages = new ArrayList<>();
+            for(Message m: loadMessages) {
+                pulledMessages.add(new MessageDTO(m));
+            }
+
+            allMessages.addAll(savedMessages);
+            allMessages.addAll(pulledMessages);
+        }
+
+        return allMessages;
     }
 
     @Override

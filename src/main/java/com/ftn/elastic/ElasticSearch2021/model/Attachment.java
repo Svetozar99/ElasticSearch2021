@@ -32,6 +32,8 @@ public class Attachment {
     @Column(name = "base64", columnDefinition = "LONGTEXT")
     private String base64;
 
+
+
     @ManyToOne
     @JoinColumn(name = "message_id", referencedColumnName = "message_id", nullable = false)
     private Message message;
