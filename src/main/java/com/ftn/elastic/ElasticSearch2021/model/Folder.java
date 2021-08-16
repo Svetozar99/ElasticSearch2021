@@ -24,13 +24,6 @@ public class Folder {
     @Column(name = "folder_name", nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_folder_id", referencedColumnName = "folder_id")
-    private Folder parentFolder;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "parentFolder")
-    private Set<Folder> subFolders;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "folder")
     private Set<Message> messages;
 

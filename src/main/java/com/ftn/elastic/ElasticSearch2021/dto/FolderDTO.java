@@ -16,11 +16,9 @@ public class FolderDTO {
 
     private String name;
 
-    private FolderDTO parentFolder;
-
     private AccountDTO account;
 
     public FolderDTO(Folder f){
-        this(f.getId(), f.getName(), new FolderDTO(f.getParentFolder()), new AccountDTO(f.getAccount()));
+        this(f.getId(), f.getName(), new AccountDTO(f.getAccount()));
     }
 }

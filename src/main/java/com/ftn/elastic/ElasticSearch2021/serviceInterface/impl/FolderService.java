@@ -44,10 +44,10 @@ public class FolderService implements FolderServiceInterface {
     @Override
     public FolderDTO save(FolderDTO folderDTO) {
         Account a = accountRepository.findOneById(folderDTO.getAccount().getId());
-        Folder folder = folderRepository.findOneById(folderDTO.getParentFolder().getId());
+//        Folder folder = folderRepository.findOneById(folderDTO.getParentFolder().getId());
         Folder f = new Folder();
         f.setName(folderDTO.getName());
-        f.setParentFolder(folder);
+//        f.setParentFolder(folder);
         f.setAccount(a);
 
         f = folderRepository.save(f);
@@ -59,7 +59,7 @@ public class FolderService implements FolderServiceInterface {
     public FolderDTO update(Integer id, FolderDTO folderDTO) {
         Folder f = folderRepository.findOneById(id);
 
-        Folder folder = f.getParentFolder();
+//        Folder folder = f.getParentFolder();
         Account a = f.getAccount();
         f.setName(folderDTO.getName());
         f = folderRepository.save(f);

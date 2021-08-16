@@ -78,4 +78,15 @@ public class AttachmentService implements AttachementServiceInterface {
     public void delete(Integer id) {
         attachmentRepository.deleteById(id);
     }
+
+    @Override
+    public List<AttachmentDTO> getAllByMessage(Integer id) {
+        List<Attachment> attachments = attachmentRepository.findAllByMessage_id(id);
+
+        List<AttachmentDTO> dtos = new ArrayList<>();
+        for(Attachment a: attachments) {
+            dtos.add(new AttachmentDTO(a));
+        }
+        return dtos;
+    }
 }

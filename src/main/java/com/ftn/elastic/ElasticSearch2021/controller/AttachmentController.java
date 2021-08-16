@@ -44,4 +44,9 @@ public class AttachmentController {
         attachementServiceInterface.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value = "/by-message/{id}")
+    public ResponseEntity<List<AttachmentDTO>> getAttachmentsByMessage(@PathVariable("id") Integer id){
+        return ResponseEntity.ok().body(attachementServiceInterface.getAllByMessage(id));
+    }
 }

@@ -16,4 +16,6 @@ public interface AttachementServiceInterface {
     public AttachmentDTO update(Integer id, AttachmentDTO attachmentDTO);
 
     public void delete(Integer id);
+
+    public List<AttachmentDTO> getAllByMessage(Integer id);
 }
