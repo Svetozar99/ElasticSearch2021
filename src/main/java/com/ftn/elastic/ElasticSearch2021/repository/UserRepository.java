@@ -6,12 +6,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findOneById(Integer id);
 
+    Optional<User> findByUsername(String username);
+
     User findOneByUsername(String username);
+
+    @Query("Select u from User u where u.username = :username")
+    Optional<User> findUserByUsername(@Param("username") String username);
+
 
     @Query("SELECT u from User u WHERE "
             + "(:username is null OR u.username LIKE CONCAT('%', :username, '%')) AND "

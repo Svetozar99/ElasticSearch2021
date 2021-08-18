@@ -58,6 +58,7 @@ public class MessageService implements MessageServiceInterface {
 
         Folder f = folderRepository.findOneById(messageDTO.getFolder().getId());
         Account a = accountRepository.findOneById(messageDTO.getAccount().getId());
+        System.out.println(a.getUsername() + " username");
         Message m = new Message();
         m.setFrom(messageDTO.getFrom());
         m.setTo(messageDTO.getTo());

@@ -7,11 +7,15 @@ import com.ftn.elastic.ElasticSearch2021.model.User;
 import com.ftn.elastic.ElasticSearch2021.repository.UserRepository;
 import com.ftn.elastic.ElasticSearch2021.serviceInterface.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserServiceInterface {
@@ -89,5 +93,18 @@ public class UserService implements UserServiceInterface {
         return dtos;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if(!user.isPresent()) throw new UsernameNotFoundException(String.format("User with username: %s not found", username));
 
+        User u = user.get();
+
+        return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), new ArrayList<>());
+    }
+
+    @Override
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
 }

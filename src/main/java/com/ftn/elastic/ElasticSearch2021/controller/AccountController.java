@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "api/account")
 public class AccountController {
 
