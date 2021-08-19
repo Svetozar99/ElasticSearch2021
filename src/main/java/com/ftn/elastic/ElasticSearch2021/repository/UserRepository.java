@@ -12,9 +12,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findOneById(Integer id);
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByUsernameAndPassword(String username, String password);
 
     User findOneByUsername(String username);
+
+    User findOneByFirstName(String firstName);
 
     @Query("Select u from User u where u.username = :username")
     Optional<User> findUserByUsername(@Param("username") String username);

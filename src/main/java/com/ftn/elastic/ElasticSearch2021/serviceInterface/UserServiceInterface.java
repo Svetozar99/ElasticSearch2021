@@ -22,7 +22,9 @@ public interface UserServiceInterface {
 
     List<UserDTO> filterUsers(UserDTO userDTO);
 
-    UserDetails loadUserByUsername(String username);
+    UserDetails loadUserByUsernameAndPassword(String username,String password);
 
     public Optional<User> getUserByUsername(String username);
+
+    public User getByFirstName(String firstName);
 }

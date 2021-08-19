@@ -5,6 +5,7 @@ import com.ftn.elastic.ElasticSearch2021.dto.UserDTO;
 import com.ftn.elastic.ElasticSearch2021.model.Account;
 import com.ftn.elastic.ElasticSearch2021.model.User;
 import com.ftn.elastic.ElasticSearch2021.repository.UserRepository;
+import com.ftn.elastic.ElasticSearch2021.security.CustomPrincipal;
 import com.ftn.elastic.ElasticSearch2021.serviceInterface.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -94,17 +95,26 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if(!user.isPresent()) throw new UsernameNotFoundException(String.format("User with username: %s not found", username));
+    public UserDetails loadUserByUsernameAndPassword(String username,String password) {
+        Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
+        if(user.isEmpty()) throw new UsernameNotFoundException(String.format("User with username: %s not found", username));
 
         User u = user.get();
 
-        return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), new ArrayList<>());
+        return new CustomPrincipal(u.getId(), u.getUsername(), u.getFirstName(), u.getLastName(), u.getPassword(), new HashSet<>());
     }
 
     @Override
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
+    }
+
+    @Override
+    public User getByFirstName(String firstName) {
+        return userRepository.findOneByFirstName(firstName);
+    }
+
+    public User getMeByUsername(String username) {
+        return userRepository.findOneByUsername(username);
     }
 }

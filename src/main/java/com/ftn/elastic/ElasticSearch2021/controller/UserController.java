@@ -1,24 +1,14 @@
 package com.ftn.elastic.ElasticSearch2021.controller;
 
 import com.ftn.elastic.ElasticSearch2021.dto.UserDTO;
-import com.ftn.elastic.ElasticSearch2021.model.User;
 import com.ftn.elastic.ElasticSearch2021.serviceInterface.UserServiceInterface;
-import com.ftn.elastic.ElasticSearch2021.serviceInterface.impl.MyUserDetailsService;
-import com.ftn.elastic.ElasticSearch2021.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "api/user")
 public class UserController {
 
