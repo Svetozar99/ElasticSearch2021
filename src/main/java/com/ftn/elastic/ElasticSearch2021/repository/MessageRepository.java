@@ -15,4 +15,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     List<Message> findAllByAccount_id(Integer id);
 
     List<Message> findAllByFolder_idAndAccount_id(Integer folderId, Integer messageId);
+
+    List<Message> findAllByFolder_nameAndAccount_id(String folderName, Integer messageId);
 }

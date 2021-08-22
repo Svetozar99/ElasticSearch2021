@@ -1,6 +1,8 @@
 package com.ftn.elastic.ElasticSearch2021.serviceInterface.impl;
 
+import com.ftn.elastic.ElasticSearch2021.dto.AttachmentDTO;
 import com.ftn.elastic.ElasticSearch2021.dto.MessageDTO;
+import com.ftn.elastic.ElasticSearch2021.lucene.indexing.Indexer;
 import com.ftn.elastic.ElasticSearch2021.model.Account;
 import com.ftn.elastic.ElasticSearch2021.model.Folder;
 import com.ftn.elastic.ElasticSearch2021.model.Message;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,12 @@ public class MessageService implements MessageServiceInterface {
 
     @Autowired
     AccountServiceInterface accountServiceInterface;
+
+    @Autowired
+    Indexer indexer;
+
+    @Autowired
+    AttachmentService attachmentService;
 
     @Autowired
     MailUtil mailUtil;
@@ -145,9 +154,9 @@ public class MessageService implements MessageServiceInterface {
         loadMessages = messageRepository.saveAll(loadMessages);
         if(loadMessages.isEmpty()){
             //return this.getByAccountId(accountId);
-            allMessages.addAll(this.getByAccountId(id)); }
+            allMessages.addAll(this.getByFolderNameAndAccount("INBOX", id)); }
         else {
-            List<MessageDTO> savedMessages = this.getByAccountId(id);
+            List<MessageDTO> savedMessages = this.getByFolderNameAndAccount("INBOX", id);
 
             List<MessageDTO> pulledMessages = new ArrayList<>();
             for(Message m: loadMessages) {
@@ -158,6 +167,28 @@ public class MessageService implements MessageServiceInterface {
             allMessages.addAll(pulledMessages);
         }
 
+        allMessages.forEach(messageDTO -> {
+            try {
+                if(!indexer.existMessage(messageDTO.getId())){
+                    indexer.addMessage(messageDTO);
+                    List<AttachmentDTO> attachmentDTOS = attachmentService.getAllByMessage(messageDTO.getId());
+                    if(!attachmentDTOS.isEmpty() && attachmentDTOS != null){
+                        attachmentDTOS.forEach(attachmentDTO -> {
+                            try {
+                                if(!indexer.existAttachment(attachmentDTO.getId())){
+                                    indexer.addAttachment(attachmentDTO);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         return allMessages;
     }
 
@@ -167,6 +198,17 @@ public class MessageService implements MessageServiceInterface {
             throw new EntityNotFoundException();
 
         List<Message> messages = messageRepository.findAllByFolder_idAndAccount_id(folderId, accountId);
+
+        List<MessageDTO> dtos = new ArrayList<>();
+        for(Message m: messages) {
+            dtos.add(new MessageDTO(m));
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<MessageDTO> getByFolderNameAndAccount(String folderId, Integer accountId) {
+        List<Message> messages = messageRepository.findAllByFolder_nameAndAccount_id(folderId, accountId);
 
         List<MessageDTO> dtos = new ArrayList<>();
         for(Message m: messages) {
